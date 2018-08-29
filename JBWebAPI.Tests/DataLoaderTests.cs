@@ -11,8 +11,11 @@ namespace UnitTestProject1
         [TestMethod]
         public void LoadJsonData_ReturnsValidData_FileExists()
         {
-            var filePath = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName, "JBWebAPI.Data", "test-data.json");
-            var result = DataLoader.LoadTestDataAsync(filePath).GetAwaiter().GetResult();
+            var dataLoader = new TestDataLoader();
+            var config = new TestConfigurationSettings();
+
+            var result = dataLoader.LoadDataAsync<DataLoaderResult>(config).GetAwaiter().GetResult();
+
             Assert.IsNotNull(result);
             Assert.AreEqual(typeof(DataLoaderResult), result.GetType());
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JBWebAPI.Data.Models
 {
-    public class DataLoaderProduct
+    public class Product
     {
         public int ProductID { get; set; }
         public string SKU { get; set; }

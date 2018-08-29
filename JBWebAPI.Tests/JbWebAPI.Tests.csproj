@@ -47,11 +47,14 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Http, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProductsControllerTests.cs" />
     <Compile Include="DataLoaderTests.cs" />
+    <Compile Include="TestConfigurationSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

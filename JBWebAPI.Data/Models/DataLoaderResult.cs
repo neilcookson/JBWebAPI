@@ -14,7 +14,7 @@ namespace JBWebAPI.Data.Models
 
     public class Result
     {
-        public List<DataLoaderProduct> Products { get; set; }
+        public IEnumerable<Product> Products { get; set; }
     }
 
     public class Status
