@@ -49,11 +49,22 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProductsControllerTests.cs" />
+    <Compile Include="UnitTest1.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JBWebAPI.API\JBWebAPI.API.csproj">
+      <Project>{afe1cdc9-da19-44de-8009-a73398a40724}</Project>
+      <Name>JBWebAPI.API</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JBWebAPI.Data\JBWebAPI.Data.csproj">
+      <Project>{16908091-ed95-460a-a1c5-c3cd0cee97af}</Project>
+      <Name>JBWebAPI.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
