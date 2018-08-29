@@ -26,7 +26,7 @@ namespace UnitTestProject1
 
         [DataRow(999)]
         [DataTestMethod]
-        public void GetProduct_ReturnsNotFound_NoMatchingId(int id)
+        public void GetProduct_ReturnsBadRequest_NoMatchingId(int id)
         {
            
         }
