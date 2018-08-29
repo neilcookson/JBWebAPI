@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Results;
 using JBWebAPI.API.Controllers;
+using JBWebAPI.API.Models;
 using JBWebAPI.Data;
 using JBWebAPI.Data.Models;
 using JBWebAPI.Data.Repositories;
@@ -36,7 +37,7 @@ namespace UnitTestProject1
         {
             var expectedCount = 99;
             IHttpActionResult controllerResponse = productsController.GetAllProductsAsync().GetAwaiter().GetResult();
-            var actualResponse = controllerResponse as OkNegotiatedContentResult<IEnumerable<Product>>;
+            var actualResponse = controllerResponse as OkNegotiatedContentResult<IEnumerable<ProductDTO>>;
 
             Assert.IsNotNull(actualResponse);
             Assert.IsNotNull(actualResponse.Content);

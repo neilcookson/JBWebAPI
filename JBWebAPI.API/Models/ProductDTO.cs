@@ -14,7 +14,7 @@ namespace JBWebAPI.API.Models
         public string Model { get; set; }
         public string Brand { get; set; }
 
-        public static implicit operator ProductDTO(Product productEntity)
+        public static explicit operator ProductDTO(Product productEntity)
         {
             return new ProductDTO()
             {
@@ -25,7 +25,7 @@ namespace JBWebAPI.API.Models
             };
         }
 
-        public static implicit operator Product(ProductDTO productDTO)
+        public static explicit operator Product(ProductDTO productDTO)
         {
             int productId;
 
