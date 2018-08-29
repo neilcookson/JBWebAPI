@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2016
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JBWebAPI.API", "JBWebAPI.API\JBWebAPI.API.csproj", "{AFE1CDC9-DA19-44DE-8009-A73398A40724}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JBWebAPI.Data", "JBWebAPI.Data\JBWebAPI.Data.csproj", "{16908091-ED95-460A-A1C5-C3CD0CEE97AF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{AFE1CDC9-DA19-44DE-8009-A73398A40724}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AFE1CDC9-DA19-44DE-8009-A73398A40724}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AFE1CDC9-DA19-44DE-8009-A73398A40724}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16908091-ED95-460A-A1C5-C3CD0CEE97AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16908091-ED95-460A-A1C5-C3CD0CEE97AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16908091-ED95-460A-A1C5-C3CD0CEE97AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16908091-ED95-460A-A1C5-C3CD0CEE97AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
