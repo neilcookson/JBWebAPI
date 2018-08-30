@@ -19,19 +19,21 @@ namespace JBWebAPI.API.Controllers
         {
             _productRepository = productRepository;
         }
-        public async Task<IHttpActionResult> GetProductAsync (int id)
+
+        public IHttpActionResult GetProduct (int id)
         {
-            var result = await _productRepository.GetProductAsync(id.ToString());
-            var dto = (ProductDTO)result;
+            var result = _productRepository.GetProductAsync(id).GetAwaiter().GetResult();
+
             if (result != null) {
+                var dto = (ProductDTO)result;
                 return Ok(dto);
             }
-            return BadRequest($"No matching product found with id {id.ToString()}"); 
+            return BadRequest($"No matching product found with id {id}"); 
         }
 
-        public async Task<IHttpActionResult> GetAllProductsAsync()
+        public IHttpActionResult GetProducts()
         {
-            var result = await _productRepository.GetAllProductsAsync();
+            var result = _productRepository.GetAllProductsAsync().GetAwaiter().GetResult();
             var dtoList = result?.Select(x => (ProductDTO)x);
             if (result != null)
             {

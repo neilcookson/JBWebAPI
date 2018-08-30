@@ -11,7 +11,7 @@ namespace UnitTestProject1
         [TestMethod]
         public void LoadJsonData_ReturnsValidData_FileExists()
         {
-            var dataLoader = new TestDataLoader();
+            var dataLoader = new TestDataService();
             var config = new TestConfigurationSettings();
 
             var result = dataLoader.LoadDataAsync<DataLoaderResult>(config).GetAwaiter().GetResult();

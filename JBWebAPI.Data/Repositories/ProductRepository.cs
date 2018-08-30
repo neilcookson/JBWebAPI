@@ -14,6 +14,7 @@ namespace JBWebAPI.Data.Repositories
     {
         readonly IDataService _dataService;
         readonly DataLoaderResult availableData;
+        IEnumerable<Product> Products => availableData?.Result?.Products;
 
         public ProductRepository (IDataService dataService, IConfigurationSettings configurationSettings)
         {
@@ -33,12 +34,12 @@ namespace JBWebAPI.Data.Repositories
 
         public Task<IEnumerable<Product>> GetAllProductsAsync()
         {
-            return Task.FromResult(availableData?.Result?.Products);
+            return Task.FromResult(Products);
         }
 
-        public Task<Product> GetProductAsync(string id)
+        public Task<Product> GetProductAsync(int id)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(Products?.Where(product => product.ProductID == id)?.FirstOrDefault());
         }
 
         public Task<bool> RemoveProduct(Product instance)

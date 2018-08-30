@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JBWebAPI.Data
 {
-    public class TestDataLoader : IDataService
+    public class TestDataService : IDataService
     {
         public async Task<T> LoadDataAsync<T> (IConfigurationSettings configSettings)
         {

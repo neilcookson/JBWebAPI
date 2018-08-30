@@ -9,7 +9,7 @@ namespace JBWebAPI.Data.Interfaces
 {
     public interface IProductRepository
     {
-        Task<Product> GetProductAsync(string id);
+        Task<Product> GetProductAsync(int id);
         Task<IEnumerable<Product>> GetAllProductsAsync();
         Task<IEnumerable<Product>> FindProductsAsync(Func<Product, bool> predicate);
         Task<bool> AddOrUpdateProductAsync(Product instance);

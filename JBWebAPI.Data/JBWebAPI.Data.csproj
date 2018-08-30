@@ -44,7 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfigurationSettings.cs" />
     <Compile Include="TestData.cs" />
     <Compile Include="Interfaces\IConfigurationSettings.cs" />
     <Compile Include="Interfaces\IDataService.cs" />
