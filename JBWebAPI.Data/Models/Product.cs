@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,12 @@ namespace JBWebAPI.Data.Models
         public bool OnlineAvailable { get; set; }
         public bool OnlineVisible { get; set; }
         public bool PreRelease { get; set; }
+
+        public bool IsValid =>
+            (!string.IsNullOrWhiteSpace(Brand)) &&
+            (!string.IsNullOrWhiteSpace(DisplayName)) &&
+            (!string.IsNullOrWhiteSpace(Category));
+
 
         public override bool Equals(object obj)
         {

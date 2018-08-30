@@ -57,11 +57,11 @@ namespace JBWebAPI.API.Controllers
             }
             return BadRequest($"Unable to delete product with id {id}");
         }
-
+        
         public IHttpActionResult PostProduct(ProductDTO productDTO)
         {
             var entity = (Product)productDTO;
-            if (entity != null && ModelState.IsValid)
+            if (entity != null && entity.IsValid)
             {
                 var createResult = _productRepository.AddOrUpdateProductAsync(entity).GetAwaiter().GetResult();
                 var newProductAsDTO = (ProductDTO)createResult;

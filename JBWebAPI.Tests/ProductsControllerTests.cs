@@ -83,7 +83,7 @@ namespace UnitTestProject1
         }
 
         [TestMethod]
-        public void AddProduct_ReturnsProductDTO_ValidProduct()
+        public void PostProduct_ReturnsProductDTO_ValidProduct()
         {
             var existingProducts = productsController.GetProducts() as OkNegotiatedContentResult<IEnumerable<ProductDTO>>;
             var expectedIdString = existingProducts.Content.OrderByDescending(prod => prod.Id).Last().Id;
@@ -99,6 +99,20 @@ namespace UnitTestProject1
             Assert.IsNotNull(createdProductResult.Content);
             Assert.AreEqual(typeof(ProductDTO), createdProductResult.Content.GetType());
             Assert.AreEqual(createdProductResult.Content.Id, expectedIdInt.ToString());
+        }
+
+        [TestMethod]
+        public void PostProduct_BadRequestMessage_InvalidProduct()
+        {
+            var expectedErrorMsg = "Product was not valid";
+            ProductDTO newProduct = new ProductDTO()
+            {
+                Description = "This is a brand new product",
+                Model = "Awesome-o 9000"
+            };
+            var badRequestErrorMessageResult = productsController.PostProduct(newProduct) as BadRequestErrorMessageResult;
+            Assert.IsNotNull(badRequestErrorMessageResult);
+            Assert.AreEqual(expectedErrorMsg, badRequestErrorMessageResult.Message);
         }
     }
 }

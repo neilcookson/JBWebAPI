@@ -15,7 +15,7 @@ namespace JBWebAPI.API.Models
         public string Description { get; set; }
         [Required]
         public string Model { get; set; }
-        [Required]
+        [Required(AllowEmptyStrings = false)]
         public string Brand { get; set; }
 
         public static explicit operator ProductDTO(Product productEntity)
