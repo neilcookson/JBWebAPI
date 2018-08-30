@@ -120,24 +120,23 @@ namespace UnitTestProject1
         [TestMethod]
         public void PutProduct_ReturnsProductDTO_ExistingProduct()
         {
-            var existingProducts = productsController.GetProducts() as OkNegotiatedContentResult<IEnumerable<ProductDTO>>;
-            var expectedIdString = existingProducts.Content.OrderByDescending(prod => prod.Id).Last().Id;
-            int expectedIdInt = Int32.Parse(expectedIdString) + 1;
             ProductDTO newProduct = new ProductDTO()
             {
-                Description = "This is a brand new product",
-                Brand = "Acme Inc",
-                Model = "Awesome-o 9000"
+                Id = "861551",
+                Description = "COMMUNICATIONS/MOBILE - OUTRIGHT/SONY/SONY",
+                Brand = "SANYO",
+                Model = "Sony Xperia XZ Premium (Luminous Chrome)"
             };
-            var createdProductResult = productsController.PostProduct(newProduct) as CreatedNegotiatedContentResult<ProductDTO>;
+            var createdProductResult = productsController.PutProduct(newProduct) as OkNegotiatedContentResult<ProductDTO>;
             Assert.IsNotNull(createdProductResult);
             Assert.IsNotNull(createdProductResult.Content);
             Assert.AreEqual(typeof(ProductDTO), createdProductResult.Content.GetType());
-            Assert.AreEqual(createdProductResult.Content.Id, expectedIdInt.ToString());
+            Assert.AreEqual(createdProductResult.Content.Id, newProduct.Id);
+            Assert.AreEqual(newProduct.Brand, createdProductResult.Content.Brand);
         }
 
         [TestMethod]
-        public void PutProduct_BadRequestMessage_NewProduct()
+        public void PutProduct_ReturnsBadRequestMessage_NewProduct()
         {
             var expectedErrorMsg = "Product was not valid";
             ProductDTO newProduct = new ProductDTO()

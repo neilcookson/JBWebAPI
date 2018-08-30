@@ -49,7 +49,7 @@ namespace JBWebAPI.API.Controllers
             var result = _productRepository.GetProductAsync(id).GetAwaiter().GetResult();
             if (result is Product productToDelete)
             {
-                var deleteSuccesful = _productRepository.RemoveProduct(productToDelete).GetAwaiter().GetResult();
+                var deleteSuccesful = _productRepository.RemoveProductAsync(productToDelete).GetAwaiter().GetResult();
                 if (deleteSuccesful)
                 {
                     return Ok(true);
@@ -68,6 +68,21 @@ namespace JBWebAPI.API.Controllers
                 return Created($"api/products/{newProductAsDTO.Id}", newProductAsDTO);
             }
             return BadRequest("Product was not valid");
+        }
+
+        public IHttpActionResult PutProduct(ProductDTO productDTO)
+        {
+            var entity = (Product)productDTO;
+            if (entity != null && entity.IsValid)
+            {
+                var putResult = _productRepository.AddOrUpdateProductAsync(entity).GetAwaiter().GetResult();
+                var newProductAsDTO = (ProductDTO)putResult;
+                if (newProductAsDTO != null)
+                {
+                    return Ok(newProductAsDTO);
+                }
+            }
+            return BadRequest("No matching product was found to update");
         }
     }
 }
