@@ -8,11 +8,11 @@ namespace JBWebAPI.Data
 {
     public class TestDataService : IDataService
     {
-        public async Task<T> LoadDataAsync<T> (IConfigurationSettings configSettings)
+        public T LoadData<T> (IConfigurationSettings configSettings)
         {
             using (StreamReader reader = new StreamReader(configSettings.ConnectionString))
             {
-                var stringResult = await reader.ReadToEndAsync();
+                var stringResult = reader.ReadToEnd();
                 return JsonConvert.DeserializeObject<T>(stringResult);
             }
         }

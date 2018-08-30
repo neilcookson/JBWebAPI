@@ -19,7 +19,7 @@ namespace JBWebAPI.Data.Repositories
         public ProductRepository (IDataService dataService, IConfigurationSettings configurationSettings)
         {
             _dataService = dataService;
-            availableData = _dataService.LoadDataAsync<DataLoaderResult>(configurationSettings).GetAwaiter().GetResult();
+            availableData = _dataService.LoadData<DataLoaderResult>(configurationSettings);
         }
 
         public Task<bool> AddOrUpdateProductAsync(Product instance)

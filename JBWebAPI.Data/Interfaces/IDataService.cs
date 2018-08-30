@@ -8,6 +8,6 @@ namespace JBWebAPI.Data.Interfaces
 {
     public interface IDataService
     {
-        Task<T> LoadDataAsync<T> (IConfigurationSettings configurationSettings);
+        T LoadData<T> (IConfigurationSettings configurationSettings);
     }
 }

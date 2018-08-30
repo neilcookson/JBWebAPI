@@ -9,12 +9,12 @@ namespace UnitTestProject1
     public class DataLoaderTests
     {
         [TestMethod]
-        public void LoadJsonData_ReturnsValidData_FileExists()
+        public void LoadData_ReturnsValidData_FileExists()
         {
             var dataLoader = new TestDataService();
             var config = new TestConfigurationSettings();
 
-            var result = dataLoader.LoadDataAsync<DataLoaderResult>(config).GetAwaiter().GetResult();
+            var result = dataLoader.LoadData<DataLoaderResult>(config);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(typeof(DataLoaderResult), result.GetType());
