@@ -94,6 +94,41 @@ namespace UnitTestProject1
                 Brand = "Acme Inc",
                 Model = "Awesome-o 9000"
             };
+            var productLocation = $"api/products/{expectedIdInt.ToString()}";
+            var createdProductResult = productsController.PostProduct(newProduct) as CreatedNegotiatedContentResult<ProductDTO>;
+            Assert.IsNotNull(createdProductResult);
+            Assert.IsNotNull(createdProductResult.Content);
+            Assert.AreEqual(typeof(ProductDTO), createdProductResult.Content.GetType());
+            Assert.AreEqual(createdProductResult.Content.Id, expectedIdInt.ToString());
+            Assert.AreEqual(createdProductResult.Location.OriginalString, productLocation);
+        }
+
+        [TestMethod]
+        public void PostProduct_BadRequestMessage_InvalidProduct()
+        {
+            var expectedErrorMsg = "Product was not valid";
+            ProductDTO newProduct = new ProductDTO()
+            {
+                Description = "This is a brand new product",
+                Model = "Awesome-o 9000"
+            };
+            var badRequestErrorMessageResult = productsController.PostProduct(newProduct) as BadRequestErrorMessageResult;
+            Assert.IsNotNull(badRequestErrorMessageResult);
+            Assert.AreEqual(expectedErrorMsg, badRequestErrorMessageResult.Message);
+        }
+
+        [TestMethod]
+        public void PutProduct_ReturnsProductDTO_ExistingProduct()
+        {
+            var existingProducts = productsController.GetProducts() as OkNegotiatedContentResult<IEnumerable<ProductDTO>>;
+            var expectedIdString = existingProducts.Content.OrderByDescending(prod => prod.Id).Last().Id;
+            int expectedIdInt = Int32.Parse(expectedIdString) + 1;
+            ProductDTO newProduct = new ProductDTO()
+            {
+                Description = "This is a brand new product",
+                Brand = "Acme Inc",
+                Model = "Awesome-o 9000"
+            };
             var createdProductResult = productsController.PostProduct(newProduct) as CreatedNegotiatedContentResult<ProductDTO>;
             Assert.IsNotNull(createdProductResult);
             Assert.IsNotNull(createdProductResult.Content);
@@ -102,7 +137,7 @@ namespace UnitTestProject1
         }
 
         [TestMethod]
-        public void PostProduct_BadRequestMessage_InvalidProduct()
+        public void PutProduct_BadRequestMessage_NewProduct()
         {
             var expectedErrorMsg = "Product was not valid";
             ProductDTO newProduct = new ProductDTO()
