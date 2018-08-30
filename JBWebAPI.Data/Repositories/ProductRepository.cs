@@ -55,7 +55,8 @@ namespace JBWebAPI.Data.Repositories
 
         public Task<IEnumerable<Product>> FindProductsAsync(Func<Product, bool> predicate)
         {
-            throw new NotImplementedException();
+            var result = Products.Where(predicate);
+            return Task.FromResult(result);
         }
 
         public Task<IEnumerable<Product>> GetAllProductsAsync()

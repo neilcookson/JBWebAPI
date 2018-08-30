@@ -7,6 +7,7 @@ using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
+using JBWebAPI.API.Helpers;
 using JBWebAPI.API.Models;
 using JBWebAPI.Data.Interfaces;
 using JBWebAPI.Data.Models;
@@ -16,10 +17,12 @@ namespace JBWebAPI.API.Controllers
     public class ProductsController : ApiController
     {
         readonly IProductRepository _productRepository;
+        readonly IFilterParser<Product> _filterParser;
 
-        public ProductsController(IProductRepository productRepository)
+        public ProductsController(IProductRepository productRepository, IFilterParser<Product> filterParser)
         {
             _productRepository = productRepository;
+            _filterParser = filterParser;
         }
 
         public IHttpActionResult GetProduct (int id)
@@ -44,6 +47,18 @@ namespace JBWebAPI.API.Controllers
             return NotFound();
         }
 
+        public IHttpActionResult GetProducts([FromUri]string fc)
+        {
+            var predicate = _filterParser.GetFilter(fc);
+            var searchResult = _productRepository.FindProductsAsync(predicate).GetAwaiter().GetResult();
+            if (searchResult?.Any() ?? false)
+            {
+                var convertedResult = searchResult.Select(prod => (ProductDTO)prod);
+                return Ok(convertedResult);
+            }
+            return BadRequest("No products matching the filter were found");
+        }
+
         public IHttpActionResult DeleteProduct(int id)
         {
             var result = _productRepository.GetProductAsync(id).GetAwaiter().GetResult();
@@ -58,7 +73,7 @@ namespace JBWebAPI.API.Controllers
             return BadRequest($"Unable to delete product with id {id}");
         }
         
-        public IHttpActionResult PostProduct(ProductDTO productDTO)
+        public IHttpActionResult PostProduct([FromBody]ProductDTO productDTO)
         {
             var entity = (Product)productDTO;
             if (entity != null && entity.IsValid)
@@ -70,7 +85,7 @@ namespace JBWebAPI.API.Controllers
             return BadRequest("Product was not valid");
         }
 
-        public IHttpActionResult PutProduct(ProductDTO productDTO)
+        public IHttpActionResult PutProduct([FromBody]ProductDTO productDTO)
         {
             var entity = (Product)productDTO;
             if (entity != null && entity.IsValid)

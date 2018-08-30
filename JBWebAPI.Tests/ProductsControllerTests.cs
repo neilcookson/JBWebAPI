@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Results;
 using JBWebAPI.API.Controllers;
+using JBWebAPI.API.Helpers;
 using JBWebAPI.API.Models;
 using JBWebAPI.Data;
 using JBWebAPI.Data.Models;
@@ -16,7 +17,7 @@ namespace UnitTestProject1
     [TestClass]
     public class ProductsControllerTests
     {
-        ProductsController productsController = new ProductsController(new ProductRepository(new TestDataService(), new TestConfigurationSettings()));
+        ProductsController productsController = new ProductsController(new ProductRepository(new TestDataService(), new TestConfigurationSettings()),new FilterParser<Product>());
 
         [DataRow(866140)]
         [DataRow(868389)]
@@ -149,6 +150,31 @@ namespace UnitTestProject1
             var badRequestErrorMessageResult = productsController.PutProduct(newProduct) as BadRequestErrorMessageResult;
             Assert.IsNotNull(badRequestErrorMessageResult);
             Assert.AreEqual(expectedErrorMsg, badRequestErrorMessageResult.Message);
+        }
+
+        [DataRow("Brand:Sony")]
+        [DataTestMethod]
+        public void GetProducts_ReturnsProducts_ValidFilter (string fc)
+        {
+            var expectedResultCount = 5;
+            var controllerResult = productsController.GetProducts(fc);
+            var actualResult = controllerResult as OkNegotiatedContentResult<IEnumerable<ProductDTO>>;
+
+            Assert.IsNotNull(actualResult);
+            Assert.IsNotNull(actualResult.Content);
+            Assert.AreEqual(expectedResultCount, actualResult.Content.Count());
+        }
+
+        [DataRow("Brand:Fony")]
+        [DataTestMethod]
+        public void GetProducts_ReturnsProducts_InvalidFilter(string fc)
+        {
+            var expectedMessage = "No products matching the filter were found";
+            var controllerResult = productsController.GetProducts(fc);
+            var actualResult = controllerResult as BadRequestErrorMessageResult;
+
+            Assert.IsNotNull(actualResult);
+            Assert.AreEqual(expectedMessage, actualResult.Message);
         }
     }
 }
