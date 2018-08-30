@@ -24,7 +24,7 @@ namespace JBWebAPI.API.Helpers
         public Func<T, bool> GetFilter(string rawFilter)
         {
             FilterModel filterModel = ParseRawFilter(rawFilter);
-            var matchingDictionaryEntry = FilterMaps?.Where(entry => entry.Key == filterModel.FilterOn)?.FirstOrDefault();
+            var matchingDictionaryEntry = FilterMaps?.Where(entry => entry.Key.ToLower() == filterModel.FilterOn.ToLower())?.FirstOrDefault();
             var matchingProp = matchingDictionaryEntry?.Value;
             return new Func<T, bool>(t => matchingProp.GetValue(t).ToString().ToLower().Contains(filterModel.Value.ToLower()));
         }
