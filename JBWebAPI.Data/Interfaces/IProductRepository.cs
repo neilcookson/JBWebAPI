@@ -12,7 +12,7 @@ namespace JBWebAPI.Data.Interfaces
         Task<Product> GetProductAsync(int id);
         Task<IEnumerable<Product>> GetAllProductsAsync();
         Task<IEnumerable<Product>> FindProductsAsync(Func<Product, bool> predicate);
-        Task<bool> AddOrUpdateProductAsync(Product instance);
+        Task<Product> AddOrUpdateProductAsync(Product instance);
         Task<bool> RemoveProduct(Product instance);
         Task<bool> RemoveProduct(string id);
     }

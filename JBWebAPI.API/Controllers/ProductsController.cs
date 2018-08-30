@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
 using JBWebAPI.API.Models;
 using JBWebAPI.Data.Interfaces;
+using JBWebAPI.Data.Models;
 
 namespace JBWebAPI.API.Controllers
 {
@@ -40,6 +42,32 @@ namespace JBWebAPI.API.Controllers
                 return Ok(dtoList);
             }
             return NotFound();
+        }
+
+        public IHttpActionResult DeleteProduct(int id)
+        {
+            var result = _productRepository.GetProductAsync(id).GetAwaiter().GetResult();
+            if (result is Product productToDelete)
+            {
+                var deleteSuccesful = _productRepository.RemoveProduct(productToDelete).GetAwaiter().GetResult();
+                if (deleteSuccesful)
+                {
+                    return Ok(true);
+                }
+            }
+            return BadRequest($"Unable to delete product with id {id}");
+        }
+
+        public IHttpActionResult PostProduct(ProductDTO productDTO)
+        {
+            var entity = (Product)productDTO;
+            if (entity != null && ModelState.IsValid)
+            {
+                var createResult = _productRepository.AddOrUpdateProductAsync(entity).GetAwaiter().GetResult();
+                var newProductAsDTO = (ProductDTO)createResult;
+                return Created($"api/products/{newProductAsDTO.Id}", newProductAsDTO);
+            }
+            return BadRequest("Product was not valid");
         }
     }
 }

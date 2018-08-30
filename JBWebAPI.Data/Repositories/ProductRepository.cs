@@ -14,7 +14,7 @@ namespace JBWebAPI.Data.Repositories
     {
         readonly IDataService _dataService;
         readonly DataLoaderResult availableData;
-        IEnumerable<Product> Products => availableData?.Result?.Products;
+        List<Product> Products => availableData?.Result?.Products?.ToList();
 
         public ProductRepository (IDataService dataService, IConfigurationSettings configurationSettings)
         {
@@ -22,9 +22,17 @@ namespace JBWebAPI.Data.Repositories
             availableData = _dataService.LoadData<DataLoaderResult>(configurationSettings);
         }
 
-        public Task<bool> AddOrUpdateProductAsync(Product instance)
+        public Task<Product> AddOrUpdateProductAsync(Product newProduct)
         {
-            throw new NotImplementedException();
+            var existingProduct = Products?.Where(product => product.Equals(newProduct))?.FirstOrDefault();
+            if (existingProduct == null)
+            {
+                newProduct.ProductID = Products.OrderByDescending(prod => prod.ProductID).Last().ProductID + 1;
+                Products.Add(newProduct);
+            }
+            Products?.Remove(existingProduct);
+            Products?.Add(newProduct);
+            return Task.FromResult(newProduct);
         }
 
         public Task<IEnumerable<Product>> FindProductsAsync(Func<Product, bool> predicate)
@@ -34,17 +42,17 @@ namespace JBWebAPI.Data.Repositories
 
         public Task<IEnumerable<Product>> GetAllProductsAsync()
         {
-            return Task.FromResult(Products);
+            return Task.FromResult<IEnumerable<Product>>(Products);
         }
 
         public Task<Product> GetProductAsync(int id)
         {
-            return Task.FromResult(Products?.Where(product => product.ProductID == id)?.FirstOrDefault());
+            return Task.FromResult(Products?.Where(product => product.ProductID == id)?.FirstOrDefault() ?? default(Product));
         }
 
         public Task<bool> RemoveProduct(Product instance)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(Products?.Remove(instance) ?? false);
         }
 
         public Task<bool> RemoveProduct(string id)

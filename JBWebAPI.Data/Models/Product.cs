@@ -23,5 +23,26 @@ namespace JBWebAPI.Data.Models
         public bool OnlineAvailable { get; set; }
         public bool OnlineVisible { get; set; }
         public bool PreRelease { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            bool areEqual;
+            var comparisonObject = (Product)obj;
+            if (comparisonObject == null)
+            {
+                return false;
+            }
+            areEqual = Brand.Equals(comparisonObject.Brand);
+            areEqual = DisplayName.Equals(comparisonObject.DisplayName);
+            areEqual = ProductID.Equals(comparisonObject.ProductID);
+            areEqual = Category.Equals(comparisonObject.Category);
+            return areEqual;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
+
 }

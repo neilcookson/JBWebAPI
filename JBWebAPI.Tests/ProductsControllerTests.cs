@@ -56,5 +56,49 @@ namespace UnitTestProject1
             Assert.IsNotNull(actualResponse.Content);
             Assert.AreEqual(expectedCount, actualResponse.Content.Count());
         }
+
+        [DataRow(866140)]
+        [DataRow(868389)]
+        [DataRow(884573)]
+        [DataTestMethod]
+        public void DeleteProduct_ReturnsTrue_MatchingId(int id)
+        {
+            var expectedResponse = true;
+            IHttpActionResult controllerResponse = productsController.DeleteProduct(id);
+            var actualResponse = controllerResponse as OkNegotiatedContentResult<bool>;
+
+            Assert.AreEqual(expectedResponse, actualResponse.Content);
+        }
+
+        [DataRow(0)]
+        [DataRow(-1)]
+        [DataTestMethod]
+        public void DeleteProduct_ReturnsBadRequestMessage_NoMatchingId(int id)
+        {
+            var expectedResponse = $"Unable to delete product with id {id}";
+            IHttpActionResult controllerResponse = productsController.DeleteProduct(id);
+            var actualResponse = controllerResponse as BadRequestErrorMessageResult;
+
+            Assert.AreEqual(expectedResponse, actualResponse.Message);
+        }
+
+        [TestMethod]
+        public void AddProduct_ReturnsProductDTO_ValidProduct()
+        {
+            var existingProducts = productsController.GetProducts() as OkNegotiatedContentResult<IEnumerable<ProductDTO>>;
+            var expectedIdString = existingProducts.Content.OrderByDescending(prod => prod.Id).Last().Id;
+            int expectedIdInt = Int32.Parse(expectedIdString) + 1;
+            ProductDTO newProduct = new ProductDTO()
+            {
+                Description = "This is a brand new product",
+                Brand = "Acme Inc",
+                Model = "Awesome-o 9000"
+            };
+            var createdProductResult = productsController.PostProduct(newProduct) as CreatedNegotiatedContentResult<ProductDTO>;
+            Assert.IsNotNull(createdProductResult);
+            Assert.IsNotNull(createdProductResult.Content);
+            Assert.AreEqual(typeof(ProductDTO), createdProductResult.Content.GetType());
+            Assert.AreEqual(createdProductResult.Content.Id, expectedIdInt.ToString());
+        }
     }
 }
