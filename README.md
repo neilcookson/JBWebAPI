@@ -10,7 +10,9 @@ This API solution contains 3 projects -
   * JBWebAPI.Test
     * Unit tests for the major components of the solution. The unit tests are using MSTest so you should have support to run / debug all configured tests from the test explorer baked into VS. At the time of the last push all tests were positive.
  
- To run the solution you should simply need to ensure that the startup project has been configured as the JBWebAPI.API project. Since the UI element has not been implemented you will need to hit the endpoints via your browser or via a 3rd party tool such as Postman. By default the project has been configured to run on port 50418.
+ To run the solution you should simply need to ensure that the startup project has been configured as the JBWebAPI.API project and ensure that all packages have been restored. This project targets .NET Framework 4.7.2.
+ 
+ Since the UI element has not been implemented you will need to hit the endpoints via your browser or via a 3rd party tool such as Postman. By default the project has been configured to run on port 50418.
  
  All endpoints follow convention-based routing as per a standard Web API implementation and meet the brief outlined for this test.
  
