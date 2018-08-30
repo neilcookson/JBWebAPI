@@ -63,7 +63,7 @@ namespace JBWebAPI.API.Controllers
             var entity = (Product)productDTO;
             if (entity != null && entity.IsValid)
             {
-                var createResult = _productRepository.AddOrUpdateProductAsync(entity).GetAwaiter().GetResult();
+                var createResult = _productRepository.AddProductAsync(entity).GetAwaiter().GetResult();
                 var newProductAsDTO = (ProductDTO)createResult;
                 return Created($"api/products/{newProductAsDTO.Id}", newProductAsDTO);
             }
@@ -75,11 +75,14 @@ namespace JBWebAPI.API.Controllers
             var entity = (Product)productDTO;
             if (entity != null && entity.IsValid)
             {
-                var putResult = _productRepository.AddOrUpdateProductAsync(entity).GetAwaiter().GetResult();
-                var newProductAsDTO = (ProductDTO)putResult;
-                if (newProductAsDTO != null)
+                var putResult = _productRepository.UpdateProductAsync(entity).GetAwaiter().GetResult();
+                if (putResult != null)
                 {
-                    return Ok(newProductAsDTO);
+                    var newProductAsDTO = (ProductDTO)putResult;
+                    if (newProductAsDTO != null)
+                    {
+                        return Ok(newProductAsDTO);
+                    }
                 }
             }
             return BadRequest("No matching product was found to update");

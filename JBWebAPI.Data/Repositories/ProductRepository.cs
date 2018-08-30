@@ -24,7 +24,7 @@ namespace JBWebAPI.Data.Repositories
             Products = new List<Product>(availableData?.Result?.Products);
         }
 
-        public Task<Product> AddOrUpdateProductAsync(Product newProduct)
+        public Task<Product> AddProductAsync(Product newProduct)
         {
             var existingProduct = Products?.Where(product => product.ProductID == newProduct.ProductID)?.FirstOrDefault();
             if (existingProduct == null)
@@ -33,12 +33,22 @@ namespace JBWebAPI.Data.Repositories
                 Products.Add(newProduct);
                 return Task.FromResult(newProduct);
             }
+            return Task.FromResult(default(Product));
+        }
+
+        public Task<Product> UpdateProductAsync(Product newProduct)
+        {
+            var existingProduct = Products?.Where(product => product.ProductID == newProduct.ProductID)?.FirstOrDefault();
+            if (existingProduct == null)
+            {
+                return Task.FromResult(default(Product));
+            }
             var removeResult = Products?.Remove(existingProduct);
             if(removeResult ?? false)
             {
                 Products?.Add(newProduct);
                 var insertedProduct = Products?.Where(prod => prod.ProductID == newProduct.ProductID)?.FirstOrDefault();
-                return Task.FromResult(insertedProduct);
+                return Task.FromResult(insertedProduct ?? default(Product));
             }
             return Task.FromResult(default(Product));
         }

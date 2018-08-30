@@ -136,15 +136,17 @@ namespace UnitTestProject1
         }
 
         [TestMethod]
-        public void PutProduct_ReturnsBadRequestMessage_NewProduct()
+        public void PutProduct_ReturnsBadRequestMessage_InvalidId()
         {
-            var expectedErrorMsg = "Product was not valid";
+            var expectedErrorMsg = "No matching product was found to update";
             ProductDTO newProduct = new ProductDTO()
             {
-                Description = "This is a brand new product",
-                Model = "Awesome-o 9000"
+                Id = "008808",
+                Description = "COMMUNICATIONS/MOBILE - OUTRIGHT/SONY/SONY",
+                Brand = "SANYO",
+                Model = "Sony Xperia XZ Premium (Luminous Chrome)"
             };
-            var badRequestErrorMessageResult = productsController.PostProduct(newProduct) as BadRequestErrorMessageResult;
+            var badRequestErrorMessageResult = productsController.PutProduct(newProduct) as BadRequestErrorMessageResult;
             Assert.IsNotNull(badRequestErrorMessageResult);
             Assert.AreEqual(expectedErrorMsg, badRequestErrorMessageResult.Message);
         }
